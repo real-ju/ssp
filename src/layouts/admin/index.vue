@@ -1,5 +1,11 @@
 <template>
-  <div class="container admin-layout" :class="{ 'mix-menu-mode': menuMode === MenuModeEnum.MIX }">
+  <div
+    class="container admin-layout"
+    :class="{
+      'mix-menu-mode': menuMode === MenuModeEnum.MIX,
+      'side-menu-mode': menuMode === MenuModeEnum.SIDE
+    }"
+  >
     <aside
       class="admin-layout-aside"
       :class="{ collapsed: siderCollapsed }"
@@ -27,8 +33,15 @@
           <img class="logo" src="/src/assets/images/layout/logo.png" alt="logo" />
           <h1 class="title">{{ layoutTitle }}</h1>
         </div>
-        <nav class="top-menu-area">
+        <nav class="top-menu-area" v-show="menuMode !== MenuModeEnum.SIDE">
           <TopMenu></TopMenu>
+        </nav>
+        <nav class="breadcrumb" v-show="menuMode === MenuModeEnum.SIDE">
+          <a-breadcrumb separator=">">
+            <a-breadcrumb-item v-for="item in menuNodePath" :key="item.key">
+              {{ item.title }}
+            </a-breadcrumb-item>
+          </a-breadcrumb>
         </nav>
         <div class="global-action-area">
           <div class="action-item custom">测试</div>
@@ -106,7 +119,7 @@ import { useLayoutStore } from '/@/store/modules/layout';
 import { useUserStore } from '/@/store/modules/user';
 import { MenuModeEnum } from '/@/enums/layoutEnum';
 import { getEnv } from '/@/utils/env';
-import { goMenuFirstLeafNode } from '/@/logics/helper/layout';
+import { goMenuFirstLeafNode, generateMenuPath } from '/@/logics/helper/layout';
 import AliveRouterView from '../aliveRouterView/index.vue';
 import { Modal } from 'ant-design-vue/es';
 import { BasicPageEnum } from '/@/enums/pageEnum';
@@ -128,7 +141,7 @@ const switchSider = (show: boolean) => {
 
 const layoutStore = useLayoutStore();
 
-const { menuMode, pageTabs, menuTree } = storeToRefs(layoutStore);
+const { menuMode, pageTabs, menuTree, selectedMenuKey } = storeToRefs(layoutStore);
 
 const { VITE_APP_TITLE: layoutTitle, VITE_APP_TITLE_EN: layoutSubTitle } = getEnv();
 
@@ -176,6 +189,11 @@ const onTabsActionMenuClick = ({ item, key, keyPath }: any) => {
 const onLogoAreaClick = () => {
   goMenuFirstLeafNode(menuTree.value);
 };
+
+const menuNodePath = computed(() => {
+  const { menuNodePath } = generateMenuPath(menuTree.value, selectedMenuKey.value);
+  return menuNodePath;
+});
 </script>
 
 <style lang="less" scoped>
@@ -208,6 +226,14 @@ const onLogoAreaClick = () => {
       .sub-title {
         font-size: 10px;
         color: #ffffff;
+      }
+    }
+  }
+
+  &.side-menu-mode {
+    .admin-layout-main {
+      .admin-layout-header {
+        justify-content: space-between;
       }
     }
   }
@@ -324,6 +350,13 @@ const onLogoAreaClick = () => {
         width: 0px;
         flex: 1;
         height: 100%;
+      }
+
+      .breadcrumb {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        margin-left: 16px;
       }
 
       .global-action-area {

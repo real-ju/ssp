@@ -4,14 +4,23 @@ import { router } from '/@/router';
 
 /**
  * 查找等于key值的节点的路径
+ * @returns {
+ *  menuKeyPath: string[],
+ *  menuNodePath: Recordable[]
+ * }
  */
-export function generateMenuKeyPath(menuTree: MenuTree, key: string): string[] {
+export function generateMenuPath(
+  menuTree: MenuTree,
+  key: string
+): { menuKeyPath: string[]; menuNodePath: Recordable[] } {
   let menuKeyPath: string[] = [];
+  let menuNodePath: Recordable[] = [];
 
   const generate = (menuTree: MenuTree, key: string): true | undefined => {
     for (let index = 0; index < menuTree.length; index++) {
       const menuNode = menuTree[index];
       menuKeyPath.push(menuNode.key);
+      menuNodePath.push(menuNode);
       if (menuNode.key === key) {
         return true;
       }
@@ -22,12 +31,13 @@ export function generateMenuKeyPath(menuTree: MenuTree, key: string): string[] {
         }
       }
       menuKeyPath.pop();
+      menuNodePath.pop();
     }
   };
 
   generate(menuTree, key);
 
-  return menuKeyPath;
+  return { menuKeyPath, menuNodePath };
 }
 
 /**

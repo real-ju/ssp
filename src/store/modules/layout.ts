@@ -3,7 +3,7 @@ import type { RouteLocationNormalized } from 'vue-router';
 
 import { defineStore } from 'pinia';
 import layoutSetting from '/@/settings/layoutSetting';
-import { generateMenuKeyPath } from '/@/logics/helper/layout';
+import { generateMenuPath } from '/@/logics/helper/layout';
 import { router } from '/@/router';
 import { BasicPageEnum } from '/@/enums/pageEnum';
 
@@ -50,7 +50,7 @@ export const useLayoutStore = defineStore({
       if (!matchKey) {
         matchKey = route.name;
       }
-      const menuKeyPath = generateMenuKeyPath(this.menuTree, String(matchKey));
+      const { menuKeyPath } = generateMenuPath(this.menuTree, String(matchKey));
       this.selectedMenuKeyPath = menuKeyPath;
     },
     updatePageTabs(route: RouteLocationNormalized) {
