@@ -1,0 +1,66 @@
+// @import './font.less';
+@import './theme/default/global.less';
+
+/* 全局 */
+* {
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: #cccccc #f3f3f3;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #cccccc;
+    border-radius: 2px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #f3f3f3;
+  }
+}
+
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  min-width: 1250px; // 常见电脑分辨率最小宽度 1280
+  min-height: 700px; // 常见电脑分辨率最小高度 768
+  position: relative;
+  overflow: hidden;
+}
+
+// .admin-layout-content内的基础页面样式
+.basic-page {
+  width: 100%;
+  min-height: 100%;
+  background-color: @page-bg-color;
+  padding: 12px;
+
+  .basic-page-card {
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    padding: 12px;
+  }
+}
