@@ -1,6 +1,0 @@
-[submodule "packages/vue3-boot"]
-	path = packages/vue3-boot
-	url = https://github.com/real-ju/vue3-boot.git
-[submodule "packages/vue3-antd-admin"]
-	path = packages/vue3-antd-admin
-	url = https://github.com/real-ju/vue3-antd-admin.git
