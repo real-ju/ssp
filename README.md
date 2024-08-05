@@ -80,8 +80,14 @@ vite + vue3 + ts + antd 项目模板
 使用 Icon 组件，有三种类型，通过 type 属性定义
 
 - ant antd 图标库
-- iconfont 阿里巴巴图标库
+- iconfont fontawesome 图标库
 - svg 本地 svg 资源，name 值格式为[dir]-[name]
+
+fontawesome 示例
+
+```html
+<Icon name="plus" form="regular"></Icon>
+```
 
 ### 一些特殊文件夹含义
 
@@ -102,3 +108,19 @@ design/theme 下每个文件夹表示一个主题。默认为 default，自定�
   2.design/theme/xxx/antd.less 中定义组件中 less 变量覆盖默认变量
 
 - 其他全局主题：design/theme/xxx/global 中定义 less 变量，在 construct/constant -> FILES_USE_GLOBAL_THEME_VAR 中添加需要引用全局主题变量的文件路径
+
+### GIT 提交规范(beta)
+
+参考 Angular 的提交信息规范：https://github.com/angular/angular/blob/main/CONTRIBUTING.md#commit
+
+#### type 说明
+
+- feat：新功能
+- fix：bug 修复
+- refactor：代码重构
+- perf：性能优化
+- build：架构代码
+- chore：公共代码（组件/工具库）
+- style：代码格式（不影响代码运行的变动）
+- docs：文档
+- revert：代码回退

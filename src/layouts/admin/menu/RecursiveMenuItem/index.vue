@@ -4,7 +4,7 @@
       <Icon :name="self.icon!.name" :type="self.icon!.type" />
     </template> -->
     <template #icon>
-      <Icon name="PieChartOutlined" />
+      <Icon type="ant" name="PieChartOutlined" />
     </template>
     <template v-for="item in subMenuTree" :key="item.key">
       <LRecursiveMenuItem v-if="item.children" :self="item" />

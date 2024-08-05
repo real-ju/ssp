@@ -15,7 +15,7 @@
             <Icon :name="item.icon!.name" :type="item.icon!.type" />
           </template> -->
           <template #icon>
-            <Icon name="PieChartOutlined" />
+            <Icon type="ant" name="PieChartOutlined" />
           </template>
           <span>{{ item.title }}</span>
         </a-menu-item>

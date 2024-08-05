@@ -18,6 +18,8 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.1.0",
+    "@vueuse/components": "^10.11.0",
+    "@vueuse/core": "^10.11.0",
     "ant-design-vue": "^3.2.16",
     "atomic-validator": "^1.0.2",
     "axios": "^1.3.4",
@@ -46,7 +48,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.9.0",
     "husky": "^8.0.0",
-    "less": "^4.1.3",
+    "less": "^4.2.0",
     "lint-staged": "^13.2.0",
     "prettier": "^2.8.6",
     "typescript": "^5.0.2",
@@ -62,5 +64,8 @@
     "src/**/*.{js,json,ts,tsx,css,less,scss,vue,html,md}": "prettier --write",
     "src/**/*.{js,ts,tsx,vue}": "eslint --cache --fix",
     "types/**/*.{d.ts,ts}": "eslint --cache --fix"
-  }
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }

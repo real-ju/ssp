@@ -1,4 +1,5 @@
 <template>
+  <!-- <UseFullscreen v-slot="{ isFullscreen, toggle: toggleFullscreen }"> -->
   <div
     class="container admin-layout"
     :class="{
@@ -23,7 +24,7 @@
           <SiderMenu :collapsed="siderCollapsed" @switch-sider="switchSider" />
         </div>
         <div class="action-area" @click="switchCollapsed">
-          <Icon :name="siderCollapsed ? 'MenuUnfoldOutlined' : 'MenuFoldOutlined'" />
+          <Icon type="ant" :name="siderCollapsed ? 'MenuUnfoldOutlined' : 'MenuFoldOutlined'" />
         </div>
       </nav>
     </aside>
@@ -44,7 +45,28 @@
           </a-breadcrumb>
         </nav>
         <div class="global-action-area">
-          <div class="action-item custom">测试</div>
+          <div class="action-item custom">
+            <div class="toolbar">
+              <div class="item" @click="toggleFullscreen">
+                <Icon :name="isFullscreen ? 'compress' : 'expand'" form="light"></Icon>
+              </div>
+              <a-dropdown>
+                <div class="item">
+                  <Icon name="arrow-right-arrow-left" form="light"></Icon>
+                </div>
+                <template #overlay>
+                  <a-menu @click="onSwitchSystemClick">
+                    <a-menu-item v-for="item in systemMenu" :key="item.key">
+                      <template #icon>
+                        <Icon :name="item.icon.name" :form="item.icon.form" />
+                      </template>
+                      <span>{{ item.title }}</span>
+                    </a-menu-item>
+                  </a-menu>
+                </template>
+              </a-dropdown>
+            </div>
+          </div>
           <div class="action-item" style="padding: 0px">
             <a-dropdown>
               <div class="user-action-box">
@@ -53,11 +75,11 @@
               </div>
               <template #overlay>
                 <a-menu class="user-action-menu" @click="onUserActionMenuClick">
-                  <a-menu-item key="logout">
+                  <a-menu-item v-for="item in userActionMenu" :key="item.key">
                     <template #icon>
-                      <Icon name="LogoutOutlined" />
+                      <Icon :name="item.icon.name" :form="item.icon.form" />
                     </template>
-                    <span>退出登录</span>
+                    <span>{{ item.title }}</span>
                   </a-menu-item>
                 </a-menu>
               </template>
@@ -87,7 +109,7 @@
               <a-dropdown>
                 <a-button>
                   <template #icon>
-                    <Icon name="DownOutlined" />
+                    <Icon type="ant" name="DownOutlined" />
                   </template>
                 </a-button>
                 <template #overlay>
@@ -110,6 +132,7 @@
       </section>
     </main>
   </div>
+  <!-- </UseFullscreen> -->
 </template>
 
 <script setup lang="ts" name="LAdmin">
@@ -124,6 +147,7 @@ import AliveRouterView from '../aliveRouterView/index.vue';
 import { Modal } from 'ant-design-vue/es';
 import { BasicPageEnum } from '/@/enums/pageEnum';
 import avatarImg from '/@/assets/images/layout/avatar.svg';
+import { UseFullscreen } from '@vueuse/components';
 
 const router = useRouter();
 
@@ -159,9 +183,67 @@ const onTabsEdit = (key: string, action: string) => {
   }
 };
 
+const userActionMenu = ref<Recordable[]>([
+  {
+    title: '账户设置',
+    key: 'logout',
+    icon: {
+      name: 'user-gear',
+      form: 'light'
+    }
+  },
+  {
+    title: '退出',
+    key: 'logout',
+    icon: {
+      name: 'arrow-right-from-bracket',
+      form: 'light'
+    }
+  }
+]);
 const onUserActionMenuClick = ({ item, key, keyPath }: any) => {
   if (key === 'logout') {
+    console.log(22222222222);
     handleLogout();
+  }
+};
+
+const systemMenu = ref<Recordable[]>([
+  {
+    title: '工作台',
+    key: 'dashboard',
+    icon: {
+      name: 'briefcase',
+      form: 'light'
+    }
+  },
+  {
+    title: '资产子系统',
+    key: 'assets',
+    icon: {
+      name: 'server',
+      form: 'light'
+    }
+  },
+  {
+    title: '漏洞子系统',
+    key: 'bug',
+    icon: {
+      name: 'bug',
+      form: 'light'
+    }
+  },
+  {
+    title: '威胁子系统',
+    key: 'threaten',
+    icon: {
+      name: 'radiation',
+      form: 'light'
+    }
+  }
+]);
+const onSwitchSystemClick = ({ item, key, keyPath }: any) => {
+  if (key === 'xxx') {
   }
 };
 
@@ -386,6 +468,26 @@ const menuNodePath = computed(() => {
 
           & + .action-item {
             margin-left: 8px;
+          }
+
+          .toolbar {
+            display: flex;
+            align-items: center;
+            .item {
+              width: 40px;
+              height: 40px;
+              border-radius: 50%;
+              cursor: pointer;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              transition: all 0.3s;
+              font-size: 14px;
+              color: #878a99;
+              &:hover {
+                background-color: #f3f6f9;
+              }
+            }
           }
 
           .user-action-box {
