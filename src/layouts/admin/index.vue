@@ -243,8 +243,7 @@ const systemMenu = ref<Recordable[]>([
   }
 ]);
 const onSwitchSystemClick = ({ item, key, keyPath }: any) => {
-  if (key === 'xxx') {
-  }
+  // if (key === 'xxx') {}
 };
 
 const userStore = useUserStore();
