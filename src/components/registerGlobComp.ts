@@ -11,7 +11,9 @@ import {
   Spin,
   Result,
   Breadcrumb,
-  Modal
+  Modal,
+  Row,
+  Col
 } from 'ant-design-vue/es';
 
 import Icon from './Icon';
@@ -35,6 +37,8 @@ export function registerGlobComp(app: App) {
   app.component(Breadcrumb.name, Breadcrumb);
   app.component(Breadcrumb.Item.name, Breadcrumb.Item);
   app.component(Modal.name, Modal);
+  app.component(Row.name, Row);
+  app.component(Col.name, Col);
 
   // common components register
   app.component('Icon', Icon);

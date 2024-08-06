@@ -15,7 +15,8 @@ export const useLayoutStore = defineStore({
     selectedMenuKeyPath: [],
     pageTabs: [],
     currentTabIndex: -1,
-    cachedRoutes: new Set()
+    cachedRoutes: new Set(),
+    adminLayoutEl: null
   }),
   getters: {
     currentTopMenuKey(state): string {
@@ -29,6 +30,9 @@ export const useLayoutStore = defineStore({
     }
   },
   actions: {
+    setAdminLayoutEl(el: any) {
+      this.adminLayoutEl = el || null;
+    },
     refreshPage(route: RouteLocationNormalized) {
       if (route.meta.cache !== false) {
         this.clearRouteCache(route.fullPath);

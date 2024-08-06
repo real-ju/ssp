@@ -1,62 +1,85 @@
 <template>
-  <!-- <UseFullscreen v-slot="{ isFullscreen, toggle: toggleFullscreen }"> -->
-  <div
-    class="container admin-layout"
-    :class="{
-      'mix-menu-mode': menuMode === MenuModeEnum.MIX,
-      'side-menu-mode': menuMode === MenuModeEnum.SIDE
-    }"
-  >
-    <aside
-      class="admin-layout-aside"
-      :class="{ collapsed: siderCollapsed }"
-      v-show="menuMode !== MenuModeEnum.TOP && showSider"
+  <UseFullscreen class="fullscreen-wrapper" v-slot="{ isFullscreen, toggle: toggleFullscreen }">
+    <div
+      class="container admin-layout"
+      :class="{
+        'mix-menu-mode': menuMode === MenuModeEnum.MIX,
+        'side-menu-mode': menuMode === MenuModeEnum.SIDE
+      }"
+      ref="adminLayoutRef"
     >
-      <div class="logo-area" v-if="menuMode === MenuModeEnum.SIDE" @click="onLogoAreaClick">
-        <img class="logo" src="/src/assets/images/layout/logo.png" alt="logo" />
-        <div class="title-area" v-show="!siderCollapsed">
-          <h1 class="title">{{ layoutTitle }}</h1>
-          <h2 class="sub-title">{{ layoutSubTitle }}</h2>
-        </div>
-      </div>
-      <nav class="side-menu-area">
-        <div class="side-menu-scroll-area">
-          <SiderMenu :collapsed="siderCollapsed" @switch-sider="switchSider" />
-        </div>
-        <div class="action-area" @click="switchCollapsed">
-          <Icon type="ant" :name="siderCollapsed ? 'MenuUnfoldOutlined' : 'MenuFoldOutlined'" />
-        </div>
-      </nav>
-    </aside>
-    <main class="admin-layout-main">
-      <header class="admin-layout-header">
-        <div class="logo-area" v-show="menuMode !== MenuModeEnum.SIDE" @click="onLogoAreaClick">
+      <aside
+        class="admin-layout-aside"
+        :class="{ collapsed: siderCollapsed }"
+        v-show="menuMode !== MenuModeEnum.TOP && showSider"
+      >
+        <div class="logo-area" v-if="menuMode === MenuModeEnum.SIDE" @click="onLogoAreaClick">
           <img class="logo" src="/src/assets/images/layout/logo.png" alt="logo" />
-          <h1 class="title">{{ layoutTitle }}</h1>
+          <div class="title-area" v-show="!siderCollapsed">
+            <h1 class="title">{{ layoutTitle }}</h1>
+            <h2 class="sub-title">{{ layoutSubTitle }}</h2>
+          </div>
         </div>
-        <nav class="top-menu-area" v-show="menuMode !== MenuModeEnum.SIDE">
-          <TopMenu></TopMenu>
+        <nav class="side-menu-area">
+          <div class="side-menu-scroll-area">
+            <SiderMenu :collapsed="siderCollapsed" @switch-sider="switchSider" />
+          </div>
+          <div class="action-area" @click="switchCollapsed">
+            <Icon type="ant" :name="siderCollapsed ? 'MenuUnfoldOutlined' : 'MenuFoldOutlined'" />
+          </div>
         </nav>
-        <nav class="breadcrumb" v-show="menuMode === MenuModeEnum.SIDE">
-          <a-breadcrumb separator=">">
-            <a-breadcrumb-item v-for="item in menuNodePath" :key="item.key">
-              {{ item.title }}
-            </a-breadcrumb-item>
-          </a-breadcrumb>
-        </nav>
-        <div class="global-action-area">
-          <div class="action-item custom">
-            <div class="toolbar">
-              <div class="item" @click="toggleFullscreen">
-                <Icon :name="isFullscreen ? 'compress' : 'expand'" form="light"></Icon>
-              </div>
-              <a-dropdown>
+      </aside>
+      <main class="admin-layout-main">
+        <header class="admin-layout-header">
+          <div class="logo-area" v-show="menuMode !== MenuModeEnum.SIDE" @click="onLogoAreaClick">
+            <img class="logo" src="/src/assets/images/layout/logo.png" alt="logo" />
+            <h1 class="title">{{ layoutTitle }}</h1>
+          </div>
+          <nav class="top-menu-area" v-show="menuMode !== MenuModeEnum.SIDE">
+            <TopMenu></TopMenu>
+          </nav>
+          <nav class="breadcrumb" v-show="menuMode === MenuModeEnum.SIDE">
+            <a-breadcrumb separator=">">
+              <a-breadcrumb-item v-for="item in menuNodePath" :key="item.key">
+                {{ item.title }}
+              </a-breadcrumb-item>
+            </a-breadcrumb>
+          </nav>
+          <div class="global-action-area">
+            <div class="action-item custom">
+              <div class="toolbar">
+                <div class="item" @click="toggleFullscreen">
+                  <Icon :name="isFullscreen ? 'compress' : 'expand'" form="light"></Icon>
+                </div>
+                <a-dropdown :getPopupContainer="() => adminLayoutEl">
+                  <div class="item">
+                    <Icon name="arrow-right-arrow-left" form="light"></Icon>
+                  </div>
+                  <template #overlay>
+                    <a-menu @click="onSwitchSystemClick">
+                      <a-menu-item v-for="item in systemMenu" :key="item.key">
+                        <template #icon>
+                          <Icon :name="item.icon.name" :form="item.icon.form" />
+                        </template>
+                        <span>{{ item.title }}</span>
+                      </a-menu-item>
+                    </a-menu>
+                  </template>
+                </a-dropdown>
                 <div class="item">
-                  <Icon name="arrow-right-arrow-left" form="light"></Icon>
+                  <Icon name="upload" form="light"></Icon>
+                </div>
+              </div>
+            </div>
+            <div class="action-item" style="padding: 0px">
+              <a-dropdown :getPopupContainer="() => adminLayoutEl">
+                <div class="user-action-box">
+                  <img class="user-avatar" :src="avatarImg" alt="user-avatar" />
+                  <div class="username">用户1</div>
                 </div>
                 <template #overlay>
-                  <a-menu @click="onSwitchSystemClick">
-                    <a-menu-item v-for="item in systemMenu" :key="item.key">
+                  <a-menu class="user-action-menu" @click="onUserActionMenuClick">
+                    <a-menu-item v-for="item in userActionMenu" :key="item.key">
                       <template #icon>
                         <Icon :name="item.icon.name" :form="item.icon.form" />
                       </template>
@@ -67,72 +90,53 @@
               </a-dropdown>
             </div>
           </div>
-          <div class="action-item" style="padding: 0px">
-            <a-dropdown>
-              <div class="user-action-box">
-                <img class="user-avatar" :src="avatarImg" alt="user-avatar" />
-                <div class="username">用户1</div>
-              </div>
-              <template #overlay>
-                <a-menu class="user-action-menu" @click="onUserActionMenuClick">
-                  <a-menu-item v-for="item in userActionMenu" :key="item.key">
-                    <template #icon>
-                      <Icon :name="item.icon.name" :form="item.icon.form" />
-                    </template>
-                    <span>{{ item.title }}</span>
-                  </a-menu-item>
-                </a-menu>
-              </template>
-            </a-dropdown>
-          </div>
-        </div>
-      </header>
-      <section class="admin-layout-tabs">
-        <div class="tabs-area">
-          <a-tabs
-            :active-key="tabsActiveKey"
-            @change="onTabsChange"
-            @edit="onTabsEdit"
-            type="editable-card"
-            hide-add
-            tab-position="top"
-            :tab-bar-gutter="0"
-          >
-            <a-tab-pane
-              v-for="item in pageTabs"
-              :key="item.route"
-              :tab="item.title"
-              :closable="pageTabs.length > 1"
+        </header>
+        <section class="admin-layout-tabs">
+          <div class="tabs-area">
+            <a-tabs
+              :active-key="tabsActiveKey"
+              @change="onTabsChange"
+              @edit="onTabsEdit"
+              type="editable-card"
+              hide-add
+              tab-position="top"
+              :tab-bar-gutter="0"
             >
-            </a-tab-pane>
-            <template #rightExtra>
-              <a-dropdown>
-                <a-button>
-                  <template #icon>
-                    <Icon type="ant" name="DownOutlined" />
+              <a-tab-pane
+                v-for="item in pageTabs"
+                :key="item.route"
+                :tab="item.title"
+                :closable="pageTabs.length > 1"
+              >
+              </a-tab-pane>
+              <template #rightExtra>
+                <a-dropdown :getPopupContainer="() => adminLayoutEl">
+                  <a-button>
+                    <template #icon>
+                      <Icon type="ant" name="DownOutlined" />
+                    </template>
+                  </a-button>
+                  <template #overlay>
+                    <a-menu @click="onTabsActionMenuClick">
+                      <a-menu-item key="all">
+                        <span>关闭全部选项卡</span>
+                      </a-menu-item>
+                      <a-menu-item key="other">
+                        <span>关闭其他选项卡</span>
+                      </a-menu-item>
+                    </a-menu>
                   </template>
-                </a-button>
-                <template #overlay>
-                  <a-menu @click="onTabsActionMenuClick">
-                    <a-menu-item key="all">
-                      <span>关闭全部选项卡</span>
-                    </a-menu-item>
-                    <a-menu-item key="other">
-                      <span>关闭其他选项卡</span>
-                    </a-menu-item>
-                  </a-menu>
-                </template>
-              </a-dropdown>
-            </template>
-          </a-tabs>
-        </div>
-      </section>
-      <section class="admin-layout-content">
-        <AliveRouterView></AliveRouterView>
-      </section>
-    </main>
-  </div>
-  <!-- </UseFullscreen> -->
+                </a-dropdown>
+              </template>
+            </a-tabs>
+          </div>
+        </section>
+        <section class="admin-layout-content">
+          <AliveRouterView></AliveRouterView>
+        </section>
+      </main>
+    </div>
+  </UseFullscreen>
 </template>
 
 <script setup lang="ts" name="LAdmin">
@@ -165,7 +169,7 @@ const switchSider = (show: boolean) => {
 
 const layoutStore = useLayoutStore();
 
-const { menuMode, pageTabs, menuTree, selectedMenuKey } = storeToRefs(layoutStore);
+const { menuMode, pageTabs, menuTree, selectedMenuKey, adminLayoutEl } = storeToRefs(layoutStore);
 
 const { VITE_APP_TITLE: layoutTitle, VITE_APP_TITLE_EN: layoutSubTitle } = getEnv();
 
@@ -186,7 +190,7 @@ const onTabsEdit = (key: string, action: string) => {
 const userActionMenu = ref<Recordable[]>([
   {
     title: '账户设置',
-    key: 'logout',
+    key: 'account',
     icon: {
       name: 'user-gear',
       form: 'light'
@@ -203,7 +207,6 @@ const userActionMenu = ref<Recordable[]>([
 ]);
 const onUserActionMenuClick = ({ item, key, keyPath }: any) => {
   if (key === 'logout') {
-    console.log(22222222222);
     handleLogout();
   }
 };
@@ -275,14 +278,25 @@ const menuNodePath = computed(() => {
   const { menuNodePath } = generateMenuPath(menuTree.value, selectedMenuKey.value);
   return menuNodePath;
 });
+
+const adminLayoutRef = ref();
+onMounted(() => {
+  layoutStore.setAdminLayoutEl(adminLayoutRef.value);
+});
 </script>
 
 <style lang="less" scoped>
 @aside-width: 250px;
 @aside-bg: #151529;
 
+.fullscreen-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
 .admin-layout {
   display: flex;
+  background-color: #ffffff;
 
   .logo-area {
     width: 100%;

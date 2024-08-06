@@ -25,6 +25,7 @@ export interface LayoutState {
   pageTabs: TabInfo[];
   currentTabIndex: number;
   cachedRoutes: Set<string>;
+  adminLayoutEl: Nullable<Element>;
 }
 
 export interface TabInfo {
