@@ -13,7 +13,12 @@ import {
   Breadcrumb,
   Modal,
   Row,
-  Col
+  Col,
+  Divider,
+  Table,
+  Pagination,
+  Select,
+  Checkbox
 } from 'ant-design-vue/es';
 
 import Icon from './Icon';
@@ -39,6 +44,11 @@ export function registerGlobComp(app: App) {
   app.component(Modal.name, Modal);
   app.component(Row.name, Row);
   app.component(Col.name, Col);
+  app.component(Divider.name, Divider);
+  app.component(Table.name, Table);
+  app.component(Pagination.name, Pagination);
+  app.component(Select.name, Select);
+  app.component(Checkbox.name, Checkbox);
 
   // common components register
   app.component('Icon', Icon);

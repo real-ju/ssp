@@ -5,4 +5,8 @@
 export const ENVS_BY_CLIENT: string[] = [];
 
 // 使用全局主题变量的文件路径（相对于根目录），用于在less中按需引用全局主题文件
-export const FILES_USE_GLOBAL_THEME_VAR: string[] = ['src/layouts/admin/index.vue'];
+export const FILES_USE_GLOBAL_THEME_VAR: string[] = [
+  'src/layouts/admin/index.vue',
+  'src/components/TableOperateButton/src/TableOperateButton.vue',
+  'src/components/TableOperateButton/src/TableOperateGroup.vue'
+];

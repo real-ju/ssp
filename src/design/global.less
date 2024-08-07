@@ -4,12 +4,10 @@
 /* 全局 */
 * {
   box-sizing: border-box;
-  scrollbar-width: thin;
-  scrollbar-color: #cccccc #f3f3f3;
 
   &::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
   }
 
   &::-webkit-scrollbar-thumb {
@@ -63,5 +61,24 @@ body {
     background-color: #ffffff;
     padding: 12px;
     border-radius: 4px;
+  }
+}
+
+.basic-table-action {
+  width: 100%;
+  .ant-btn + .ant-btn {
+    margin-left: 16px;
+  }
+}
+
+.basic-table-pagination {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .tip {
+    i {
+      color: @primary-color;
+    }
   }
 }
