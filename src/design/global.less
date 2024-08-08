@@ -42,7 +42,7 @@ body {
 .container {
   width: 100%;
   height: 100%;
-  min-width: 1250px; // 常见电脑分辨率最小宽度 1280
+  min-width: 1200px; // 常见电脑分辨率最小宽度 1280
   min-height: 700px; // 常见电脑分辨率最小高度 768
   position: relative;
   overflow: hidden;
@@ -61,6 +61,10 @@ body {
     background-color: #ffffff;
     padding: 12px;
     border-radius: 4px;
+    overflow: hidden;
+    &.no-padding {
+      padding: 0px;
+    }
   }
 }
 

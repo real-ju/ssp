@@ -14,7 +14,7 @@
       <slot name="bottomAction">
         <div class="basic-table-pagination">
           <div class="tip">
-            当前选择 <i>0</i> 项，共 <i>{{ paginationData.total }}</i> 项
+            当前选择 <i>{{ selectedRows.length }}</i> 项，共 <i>{{ paginationData.total }}</i> 项
           </div>
           <a-pagination
             size="small"
@@ -41,6 +41,12 @@ const props = defineProps({
     type: Object as PropType<Recordable>,
     default() {
       return {};
+    }
+  },
+  selectedRows: {
+    type: Object as PropType<Recordable[]>,
+    default() {
+      return [];
     }
   }
 });

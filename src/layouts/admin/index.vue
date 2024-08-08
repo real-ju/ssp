@@ -118,9 +118,9 @@
                   </a-button>
                   <template #overlay>
                     <a-menu @click="onTabsActionMenuClick">
-                      <a-menu-item key="all">
+                      <!-- <a-menu-item key="all">
                         <span>关闭全部选项卡</span>
-                      </a-menu-item>
+                      </a-menu-item> -->
                       <a-menu-item key="other">
                         <span>关闭其他选项卡</span>
                       </a-menu-item>

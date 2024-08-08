@@ -8,5 +8,7 @@ export const ENVS_BY_CLIENT: string[] = [];
 export const FILES_USE_GLOBAL_THEME_VAR: string[] = [
   'src/layouts/admin/index.vue',
   'src/components/TableOperateButton/src/TableOperateButton.vue',
-  'src/components/TableOperateButton/src/TableOperateGroup.vue'
+  'src/components/TableOperateButton/src/TableOperateGroup.vue',
+  'src/views/common/DataPanel/index.vue',
+  'src/views/common/DataPanel/ExtraDataCommon.vue'
 ];

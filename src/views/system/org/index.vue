@@ -2,13 +2,16 @@
   <div class="system-org-page basic-page">
     <TBLayout>
       <template #top>
-        <div class="basic-page-card">1</div>
+        <div class="basic-page-card no-padding">
+          <DataPanel></DataPanel>
+        </div>
       </template>
       <template #bottom>
         <div class="basic-page-card">
           <BasicTable
             ref="basicTableRef"
             :paginationData="paginationData"
+            :selectedRows="selectedRows"
             @getTableData="getTableData"
           >
             <template #query>
@@ -72,6 +75,7 @@
 
 <script setup lang="ts" name="VSystemOrg">
 import TBLayout from '/@/views/common/TBLayout/index.vue';
+import DataPanel from '/@/views/common/DataPanel/index.vue';
 import BasicTable from '/@/components/BasicTable/index.vue';
 import TableQueryForm from '/@/components/TableQueryForm/index.vue';
 import { TableOperateGroup, TableOperateButton } from '/@/components/TableOperateButton';

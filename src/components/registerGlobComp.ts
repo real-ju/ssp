@@ -18,7 +18,8 @@ import {
   Table,
   Pagination,
   Select,
-  Checkbox
+  Checkbox,
+  Badge
 } from 'ant-design-vue/es';
 
 import Icon from './Icon';
@@ -49,6 +50,7 @@ export function registerGlobComp(app: App) {
   app.component(Pagination.name!, Pagination);
   app.component(Select.name!, Select);
   app.component(Checkbox.name!, Checkbox);
+  app.component(Badge.name!, Badge);
 
   // common components register
   app.component('Icon', Icon);
