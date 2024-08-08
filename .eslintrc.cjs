@@ -32,6 +32,7 @@ module.exports = {
     'no-undef': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
     'vue/no-unused-vars': 'off',
-    'no-empty': 'off'
+    'no-empty': 'off',
+    'vue/no-mutating-props': 'off'
   }
 };
